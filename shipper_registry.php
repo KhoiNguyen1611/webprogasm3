@@ -18,42 +18,100 @@
 
     <main>
         <div class="info">
-            <form method = "post" action="">
+
                 <fieldset>
-                    <label for="username">Username:</label> 
-                    <input type="text" class = 'info_input' name="" id="username">
-                    <label for="password">Password:</label> 
-                    <input type="password" class = 'info_input' name="" id="password">
-                    <label for="">Select your distribution hub (You may change later):</label>
-                    <div class="hub">
-                        <div class= "hanoi_hub">   
-                            <input type="radio" name = "chosenhub" id="Lazada Hanoi">
-                            <label for="Lazada Hanoi">Name: Lazada Hub HCMC</label>
-                            <a>-  Address: 8 floor 127 Lo Duc</a>
-                        </div> 
+                    <form method = "post" enctype="multipart/form-data">
+                        <label for="username">Username:</label> 
+                        <input type="text" class = 'info_input' name="username" id="username">
+                        <label for="password">Password:</label> 
+                        <input type="password" class = 'info_input' name="password" id="password">
+                        <label for="">Select your distribution hub (You may change later):</label>
+                        <div class="hub">
+                            <div class= "hanoi_hub">   
+                                <input type="radio" name = "chosenhub" id="Lazada Hanoi" value = "Lazada Hanoi">
+                                <label for="Lazada Hanoi">Name: Lazada Hub HCMC</label>
+                                <a>-  Address: 8 floor 127 Lo Duc</a>
+                            </div> 
 
-                        <div class="hmc_hub">
-                            <input type="radio" name = "chosenhub" id="Lazada HCMC">
-                            <label for="Lazada HCMC">Name: Lazada Hub Danang</label>
-                            <a>-  Address: 8 floor 127 Lo Duc</a>
-                        </div>
+                            <div class="hmc_hub">
+                                <input type="radio" name = "chosenhub" id="Lazada HCMC" value = "Lazada HCMC">
+                                <label for="Lazada HCMC">Name: Lazada Hub Danang</label>
+                                <a>-  Address: 8 floor 127 Lo Duc</a>
+                            </div>
 
-                        <div class = "danang_hub">
-                            <input type="radio" name = "chosenhub" id="Lazada Danang">
-                            <label for="Lazada Danang">Name: Lazada Hub Hanoi</label>
-                            <a>-   Address: 8 floor 127 Lo Duc</a>
+                            <div class = "danang_hub">
+                                <input type="radio" name = "chosenhub" id="Lazada Danang" value = "Lazada Danang">
+                                <label for="Lazada Danang">Name: Lazada Hub Hanoi</label>
+                                <a>-   Address: 8 floor 127 Lo Duc</a>
+                            </div>
                         </div>
-                    </div>
-                
-                    <label for="image">Set a profile picture: </label>
-                    <input type="file" name="" id="image" accept="image/png, image/jpeg"><br>
-                    <p></p><input type="button" name="" id="register" value = "Register">
+                    
+                        <label for="image">Set a profile picture: </label>
+                        <input type="file" name="avt" id="image" accept="image/png, image/jpeg"><br>
+
+<?php
+                            error_reporting(E_ERROR | E_PARSE);
+                            if(isset($_POST["act"])){
+                                if(isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["chosenhub"]) && is_uploaded_file($_FILES['avt']['tmp_name']) )
+                                {
+                                    $userptn = '/^(?=.*\d)(?=.*[a-z])(?!\W+)(?=.*[A-Z])(?!.*\s).{8,15}$/';
+                                    $pwdptn = '/^(?=.*\d)(?=.*[a-z])(?=.*[!@#\$%\^\&*])(?=.*[A-Z])(?!.*\s).{8,20}$/';
+                                    $usercorrect = false;
+                                    $pwdcorrect = false;
+                                    if(preg_match($userptn , $_POST["username"])){
+                                        $usercorrect = true;
+                                    }
+                                    if(preg_match($pwdptn , $_POST["password"])){
+                                        $pwdcorrect = true;
+                                    }
+                                    if($usercorrect === true and $pwdcorrect === true){
+                                    // check if user exist.
+                                        $file=fopen("accounts.db","r");
+                                        $finduser = false;
+                                        while(!feof($file))
+                                        {
+                                            $line = fgets($file);
+                                            $array = explode(";",$line);
+                                            if(trim($array[1]) == $_POST['username'])
+                                            {
+                                                $finduser=true;
+                                                break;
+                                            }
+                                        }
+                                        fclose($file);
+                                    
+                                        // register user or pop up message
+                                        if( $finduser )
+                                        {
+                                            echo $_POST["username"];
+                                            echo ' existed!';
+                                        }
+                                        else
+                                        {
+                                            $file = fopen("accounts.db", "a");
+                                            $avt = $_FILES["avt"];
+                                            move_uploaded_file($avt["tmp_name"], "avtimg/".$_POST["username"]."avt.png");
+                                            fputs($file,"shipper".";".$_POST["username"].";".password_hash( $_POST["password"], PASSWORD_DEFAULT).";"."D:\webasm3\avtimg\\".$_POST["username"]."avt.png".";".$_POST["chosenhub"]."\r\n");
+                                            fclose($file);
+                                            echo $_POST["username"];
+                                            echo " registered successfully!";
+                                        }
+                                    }
+                                    else{
+                                        echo "Please input the correct format!";
+                                    }    
+                                }
+                            }
+?>
+                        
+                        <input type="submit" name="act" id="register" value = "Register">
+                    </form>
                 </fieldset>
-            </form>
         </div>
     </main>
 
-
+<script src="shipper_validation.js"></script>
 
 </body>
 </html>
+

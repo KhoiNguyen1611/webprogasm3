@@ -47,8 +47,7 @@ vertical-align: middle;
 
 
 .info fieldset{
-    display: flex;
-    flex-direction: column;
+
     background-color: beige;
     max-width: 700px;
     padding: 30px;
@@ -59,6 +58,11 @@ vertical-align: middle;
     margin-left: 100px;
     margin-right: 100px;
     border-radius: 20px;
+}
+
+.info fieldset form {
+    display: flex;
+    flex-direction: column;
 }
 
 .info label{

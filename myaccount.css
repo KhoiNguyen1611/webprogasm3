@@ -4,12 +4,8 @@
     box-sizing: border-box;
 }
 
-body {
-    background-image: url("shipper_bg.jpg");
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-
+main{
+    margin: 150px;
 }
 
 .navbar1 {
@@ -23,7 +19,7 @@ body {
     text-align: center;
     vertical-align: middle;
 }
-  
+
 /* .navbar1 a {
 color: #f2f2f2;
 padding: 14px 16px;
@@ -34,53 +30,48 @@ vertical-align: middle;
 } */
 
 .navbar1 img{
-    margin-top: 10px;
+    /* margin-top: 10px; */
+    max-height: 80px;
 }
 
 .navbar1 #logo{
     border-style: none;
 }
 
-.navbar1 a img{
-    max-height: fit-content;
-}
-
-
-.info form{
+.main_area fieldset{
     display: flex;
     flex-direction: column;
-}
-
-.info fieldset{
-    background-color: beige;
+    background-color: rgb(232, 232, 232);
     max-width: 700px;
-    padding: 30px;
-    padding-left: 70px;
-    padding-top: 40px;
-    margin: 20px;
-    margin-top: 150px;
-    margin-left: 100px;
-    margin-right: 100px;
+    padding: 50px;
+    margin: auto;
     border-radius: 20px;
 }
 
-.info label{
-    font-size: 1.2rem;
-    padding-bottom: 5px;
+.main_area fieldset img{
+    border: 2px solid;
+    max-height: 300px;
+    width: fit-content;
+    align-self: center;
 }
 
-.info input{
-    margin: 7px;
-    margin-left: 24px;
-    margin-bottom: 20px;
-    padding: 3px;
-    font-size: 0.8rem;
-    max-width: 300px;
-    border-radius: 3px;
+.username{
+    display: flex;
+    align-items: flex-end;
 }
 
 
-#register{
+.address{
+    display: flex;
+    align-items: flex-end;
+}
+
+.main_area fieldset div{
+    margin: 30px;
+    margin-bottom: 0;
+}
+
+#submit{
     font-size: 16px;
     max-width: 150px;
     margin-left: auto;
@@ -89,12 +80,16 @@ vertical-align: middle;
     padding-top: 15px;
     padding-bottom: 15px;
     border-radius: 10px;
+    float: right;
 }
 
-.hub {
-    display: flexbox;
+.filesubmission {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.hub input{
-    padding: 0%;
+.bname{
+    display: flex;
+    align-items: flex-end;
 }
